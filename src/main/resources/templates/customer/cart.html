@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Cart</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap JS (CRITICAL) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            defer></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-4">
+
+    <h3 class="mb-4">🛒 My Cart</h3>
+
+    <table class="table table-bordered" th:if="${!#maps.isEmpty(cartItems)}">
+        <thead class="table-light">
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="entry : ${cartItems}">
+            <td th:text="${entry.value.item.name}"></td>
+            <td>₹ <span th:text="${entry.value.item.price}"></span></td>
+            <td th:text="${entry.value.quantity}"></td>
+            <td>₹ <span th:text="${entry.value.totalPrice}"></span></td>
+            <td>
+                <a th:href="@{/customer/cart/remove/{id}(id=${entry.key})}"
+                   class="btn btn-danger btn-sm">
+                    Remove
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#maps.isEmpty(cartItems)}"
+         class="alert alert-info text-center">
+        Your cart is empty 🥲
+    </div>
+
+    <div class="text-end mt-3">
+        <h4>Total: ₹ <span th:text="${totalAmount}"></span></h4>
+        <a href="/customer/checkout" class="btn btn-success mt-2">
+            Proceed to Checkout
+        </a>
+    </div>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

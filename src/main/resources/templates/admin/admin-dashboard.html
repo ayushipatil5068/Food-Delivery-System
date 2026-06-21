@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap JS (CRITICAL) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            defer></script>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-4">
+    <h3 class="mb-4">👑 Admin Dashboard</h3>
+
+    <div class="row g-3">
+        <!-- Total Orders -->
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3 h-100">
+                <div class="card-body">
+                    <h5>Total Orders</h5>
+                    <h3 th:text="${totalOrders}">0</h3>
+                    <a href="/admin/orders" class="btn btn-light btn-sm mt-2">View Orders</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Restaurants -->
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3 h-100">
+                <div class="card-body">
+                    <h5>Restaurants</h5>
+                    <h3 th:text="${totalRestaurants}">0</h3>
+                    <a href="/admin/restaurants" class="btn btn-light btn-sm mt-2">Manage Restaurants</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers -->
+        <div class="col-md-3">
+            <div class="card text-bg-warning mb-3 h-100">
+                <div class="card-body">
+                    <h5>Customers</h5>
+                    <h3 th:text="${totalCustomers}">0</h3>
+                    <a href="/admin/customers" class="btn btn-light btn-sm mt-2">View Customers</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="col-md-3">
+            <div class="card text-bg-danger mb-3 h-100">
+                <div class="card-body">
+                    <h5>Revenue (₹)</h5>
+                    <h3 th:text="${totalRevenue}">0</h3>
+                    <a href="/admin/orders" class="btn btn-light btn-sm mt-2">View Revenue Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest Orders -->
+    <div class="mt-4">
+        <h5>Latest Orders</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Restaurant</th>
+                    <th>Total (₹)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${latestOrders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.customer.name}"></td>
+                <td th:text="${order.restaurant.name}"></td>
+                <td th:text="${order.totalAmount}"></td>
+                <td th:text="${order.status}"></td>
+                <!-- FIXED HERE -->
+                <td th:text="${#temporals.format(order.orderTime, 'dd-MM-yyyy HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a href="/admin/orders" class="btn btn-secondary btn-sm">View All Orders</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>
